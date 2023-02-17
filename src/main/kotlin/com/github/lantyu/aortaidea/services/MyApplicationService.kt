@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.lantyu.aortaidea.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.lantyu.aortaidea.MyBundle
 
 class MyApplicationService {
 
