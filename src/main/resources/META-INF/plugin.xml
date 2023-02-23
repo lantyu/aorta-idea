@@ -1,18 +1,29 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.lantyu.aortaidea</id>
-    <name>IntelliJ Platform Plugin aorta-idea</name>
-    <vendor>lantyu</vendor>
+    <name>aorta-idea</name>
+    <vendor>lizongxing</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <projectConfigurable
+                parentId="tools"
+                id="com.htsc.aorta.idea.config.AortaExtSettingConfiguration"
+                displayName="aorta-idea"
+                nonDefaultProject="true"
+                instance="com.htsc.aorta.idea.config.AortaExtSettingConfiguration"
+        />
         <applicationService serviceImplementation="com.github.lantyu.aortaidea.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.lantyu.aortaidea.services.MyProjectService"/>
+        <projectService serviceImplementation="com.htsc.aorta.idea.config.AortaIdeaExtSetting"/>
+
     </extensions>
 
-    <applicationListeners>
-        <listener class="com.github.lantyu.aortaidea.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+    <actions>
+        <!-- 在此处添加你的Action -->
+     <!--   <action class="com.htsc.aorta.idea.HelloWorldAction" description="Hello world">
+            &lt;!&ndash; 该标签表示通过快捷键触发Action，注意快捷键可能会冲突，导致功能无法被触发，更换绑定的快捷键即可 &ndash;&gt;
+            <keyboard-shortcut first-keystroke="shift alt F7" keymap="$default"/>
+        </action>-->
+    </actions>
 </idea-plugin>
