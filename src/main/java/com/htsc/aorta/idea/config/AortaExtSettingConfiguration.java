@@ -11,10 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.List;
+import java.util.Set;
 
 public class AortaExtSettingConfiguration implements Configurable {
 
@@ -65,7 +64,7 @@ public class AortaExtSettingConfiguration implements Configurable {
         if (StringUtils.equalsIgnoreCase(nullHint, this.dubboTexts.getText())) {
             return;
         }
-        List<String> dubboServices = AortaExtUtils.analyseDubboInterfaces(this.dubboTexts.getText());
+        Set<String> dubboServices = AortaExtUtils.analyseDubboInterfaces(this.dubboTexts.getText());
         if (CollectionUtils.isNotEmpty(dubboServices)) {
             AortaIdeaExtSetting.getInstance(this.project).dubboServices = dubboServices;
             this.dubboTexts.setText(AortaExtUtils.formatJsonArray(headHint + JSON.toJSONString(dubboServices)));

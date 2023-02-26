@@ -5,6 +5,8 @@
     <vendor>lizongxing</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+    <depends>com.intellij.modules.xml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <projectConfigurable
@@ -20,10 +22,9 @@
     </extensions>
 
     <actions>
-        <!-- 在此处添加你的Action -->
-     <!--   <action class="com.htsc.aorta.idea.HelloWorldAction" description="Hello world">
-            &lt;!&ndash; 该标签表示通过快捷键触发Action，注意快捷键可能会冲突，导致功能无法被触发，更换绑定的快捷键即可 &ndash;&gt;
-            <keyboard-shortcut first-keystroke="shift alt F7" keymap="$default"/>
-        </action>-->
+        <action class="com.htsc.aorta.idea.actions.AortaAnalyzeStackAction" description="PsiMethodDemo"
+                text="PsiMethodDemo">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
     </actions>
 </idea-plugin>

@@ -7,12 +7,12 @@ import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.Set;
 
 @State(name = "aortaIdeaConfig", storages = {@Storage(value = "AortaIdea-Config.xml")})
 public class AortaIdeaExtSetting implements PersistentStateComponent<AortaIdeaExtSetting> {
 
-    public List<String> dubboServices;
+    public Set<String> dubboServices;
 
     public static AortaIdeaExtSetting getInstance(Project project) {
         return project.getService(AortaIdeaExtSetting.class);
