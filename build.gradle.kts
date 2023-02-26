@@ -23,6 +23,9 @@ version = properties("pluginVersion")
 
 // Configure project's dependencies
 repositories {
+    maven {
+        setUrl("https://maven.aliyun.com/nexus/content/groups/public/")
+    }
     mavenCentral()
 }
 
