@@ -2,6 +2,8 @@ package com.htsc.aorta.idea.handler;
 
 import com.intellij.psi.PsiMethod;
 
+import java.util.logging.Logger;
+
 public class MethodRecordHandler {
 
     private static class SingletonHolder {
@@ -13,6 +15,6 @@ public class MethodRecordHandler {
     }
 
     public void recordMethod(PsiMethod method) {
-
+        System.out.println("已完成扫描====》" + method.getContainingClass().getQualifiedName());
     }
 }

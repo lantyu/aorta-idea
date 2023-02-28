@@ -25,9 +25,9 @@ public class AortaAnalyzeStackAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        PsiMethod parentMethod = AortaExtUtils.getParentPsiMethodSetByCaret(e);
-        if (parentMethod != null) {
-            addMethods2Scan(parentMethod);
+        Optional<PsiMethod> parentMethodOpt = AortaExtUtils.getParentPsiMethodSetByCaret(e);
+        if (parentMethodOpt.isPresent()) {
+            addMethods2Scan(parentMethodOpt.get());
         }
 
         analyseMethod(e.getProject());
@@ -55,7 +55,7 @@ public class AortaAnalyzeStackAction extends AnAction {
     }
 
     private void analyseMethod(Project project) {
-        while (methods2Scan.isEmpty()){
+        while (!methods2Scan.isEmpty()){
             PsiMethod methodScanning = methods2Scan.removeFirst();
             if (scannedMethods.contains(methodScanning)) {
                 continue;
