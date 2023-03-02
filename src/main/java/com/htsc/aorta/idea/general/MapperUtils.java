@@ -1,16 +1,14 @@
 package com.htsc.aorta.idea.general;
 
-import com.htsc.aorta.idea.general.model.IdDomElement;
-import com.htsc.aorta.idea.general.model.Mapper;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.xml.XmlElement;
-import com.intellij.util.xml.DomElement;
-import com.intellij.util.xml.DomUtil;
+import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.xml.XmlFile;
+import com.intellij.psi.xml.XmlTag;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 
@@ -24,75 +22,46 @@ public final class MapperUtils {
     }
 
     @NotNull
-    public static Optional<IdDomElement> findParentIdDomElement(@Nullable PsiElement element) {
-        DomElement domElement = DomUtil.getDomElement(element);
-        if (null == domElement) {
+    public static Optional<XmlTag> findParentMybatisXmlTag(@Nullable PsiElement element) {
+        if (null == element) {
             return Optional.empty();
         }
-        if (domElement instanceof IdDomElement) {
-            return Optional.of((IdDomElement) domElement);
+        if (isElementWithinMybatis(element)) {
+            return Optional.of((XmlTag) element);
         }
-        return Optional.ofNullable(DomUtil.getParentOfType(domElement, IdDomElement.class, true));
+        return getParentOfXmlTag(element);
     }
 
-    public static boolean isElementWithinMybatisFile(@NotNull PsiElement element) {
-        PsiFile psiFile = element.getContainingFile();
-        return element instanceof XmlElement && DomUtils.isMybatisFile(psiFile);
-    }
-
-    @SuppressWarnings("unchecked")
     @NotNull
-    @NonNls
-    public static Mapper getMapper(@NotNull DomElement element) {
-        Optional<Mapper> optional = Optional.ofNullable(DomUtil.getParentOfType(element, Mapper.class, true));
-        if (optional.isPresent()) {
-            return optional.get();
-        } else {
-            throw new IllegalArgumentException("Unknown element");
+    public static Optional<XmlTag> getParentOfXmlTag(@Nullable PsiElement element) {
+        XmlTag tag = PsiTreeUtil.getParentOfType(element, XmlTag.class, false);
+        while (tag != null) {
+            if(isElementWithinMybatis(tag)){
+                return Optional.ofNullable(tag);
+            }
+
+            tag = tag.getParentTag();
         }
+        return Optional.empty();
     }
 
-    @NotNull
-    @NonNls
-    public static String getNamespace(@NotNull Mapper mapper) {
-        String ns = mapper.getNamespace().getStringValue();
-        return null == ns ? "" : ns;
-    }
-
-    @NotNull
-    @NonNls
-    public static String getNamespace(@NotNull DomElement element) {
-        return getNamespace(getMapper(element));
-    }
-
-    @NonNls
-    public static boolean isMapperWithSameNamespace(@Nullable Mapper mapper, @Nullable Mapper target) {
-        return null != mapper && null != target && getNamespace(mapper).equals(getNamespace(target));
-    }
-
-    @Nullable
-    @NonNls
-    public static <T extends IdDomElement> String getId(@NotNull T domElement) {
-        return domElement.getId().getRawText();
-    }
-
-    @NotNull
-    @NonNls
-    public static <T extends IdDomElement> String getIdSignature(@NotNull T domElement) {
-        return getNamespace(domElement) + "." + getId(domElement);
-    }
-
-    @NotNull
-    @NonNls
-    public static <T extends IdDomElement> String getIdSignature(@NotNull T domElement, @NotNull Mapper mapper) {
-        Mapper contextMapper = getMapper(domElement);
-        String id = getId(domElement);
-        if (id == null) {
-            id = "";
+    public static boolean isElementWithinMybatis(@NotNull PsiElement element) {
+        if (null != element && element instanceof XmlTag) {
+            return Arrays.asList("select", "update", "insert", "delete").contains(((XmlTag) element).getName().toLowerCase());
         }
-        String idsignature = getIdSignature(domElement);
-        //getIdSignature(domElement)
-        return isMapperWithSameNamespace(contextMapper, mapper) ? id : idsignature;
+        return false;
+    }
+
+    @NotNull
+    @NonNls
+    public static String getNamespace(@NotNull XmlTag element) {
+        String namespace = ((XmlFile) element.getContainingFile()).getRootTag().getAttributeValue("namespace");
+        return namespace;
+    }
+
+
+    public static String getId(@NotNull XmlTag xmlTag) {
+        return xmlTag.getAttributeValue("id");
     }
 
 }

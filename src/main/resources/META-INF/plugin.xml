@@ -11,19 +11,19 @@
     <extensions defaultExtensionNs="com.intellij">
         <projectConfigurable
                 parentId="tools"
-                id="com.htsc.aorta.idea.config.AortaExtSettingConfiguration"
+                id="com.htsc.aorta.idea.config.AortaExtSettingConfigurationUI"
                 displayName="aorta-idea"
                 nonDefaultProject="true"
-                instance="com.htsc.aorta.idea.config.AortaExtSettingConfiguration"
+                instance="com.htsc.aorta.idea.config.AortaExtSettingConfigurationUI"
         />
         <applicationService serviceImplementation="com.github.lantyu.aortaidea.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.htsc.aorta.idea.config.AortaIdeaExtSetting"/>
+        <projectService serviceImplementation="com.htsc.aorta.idea.config.AortaIdeaExtSettingHolder"/>
 
     </extensions>
 
     <actions>
-        <action class="com.htsc.aorta.idea.actions.AortaAnalyzeStackAction" description="PsiMethodDemo"
-                text="PsiMethodDemo">
+        <action class="com.htsc.aorta.idea.actions.AortaAnalyzeStackAction" description="分析当前代码块引用"
+                text="分析当前代码块引用">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>

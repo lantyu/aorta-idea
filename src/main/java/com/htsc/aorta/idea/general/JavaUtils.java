@@ -1,12 +1,11 @@
 package com.htsc.aorta.idea.general;
 
-import com.htsc.aorta.idea.general.annotation.Annotation;
-import com.htsc.aorta.idea.general.model.IdDomElement;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PropertyUtil;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.xml.XmlTag;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -85,59 +84,8 @@ public final class JavaUtils {
     }
 
     @NotNull
-    public static Optional<PsiMethod> findMethod(@NotNull Project project, @NotNull IdDomElement element) {
+    public static Optional<PsiMethod> findMethod(@NotNull Project project, @NotNull XmlTag element) {
         return findMethod(project, MapperUtils.getNamespace(element), MapperUtils.getId(element));
-    }
-
-    public static boolean isAnnotationPresent(@NotNull PsiModifierListOwner target, @NotNull Annotation annotation) {
-        PsiModifierList modifierList = target.getModifierList();
-        return null != modifierList && null != modifierList.findAnnotation(annotation.getQualifiedName());
-    }
-
-    @NotNull
-    public static Optional<PsiAnnotation> getPsiAnnotation(@NotNull PsiModifierListOwner target, @NotNull Annotation annotation) {
-        PsiModifierList modifierList = target.getModifierList();
-        return null == modifierList ? Optional.empty() : Optional.ofNullable(modifierList.findAnnotation(annotation.getQualifiedName()));
-    }
-
-    @NotNull
-    public static Optional<PsiAnnotationMemberValue> getAnnotationAttributeValue(@NotNull PsiModifierListOwner target,
-                                                                                 @NotNull Annotation annotation,
-                                                                                 @NotNull String attrName) {
-        if (!isAnnotationPresent(target, annotation)) {
-            return Optional.empty();
-        }
-        Optional<PsiAnnotation> psiAnnotation = getPsiAnnotation(target, annotation);
-        return psiAnnotation.isPresent() ? Optional.ofNullable(psiAnnotation.get().findAttributeValue(attrName)) : Optional.empty();
-    }
-
-    @NotNull
-    public static Optional<PsiAnnotationMemberValue> getAnnotationValue(@NotNull PsiModifierListOwner target, @NotNull Annotation annotation) {
-        return getAnnotationAttributeValue(target, annotation, "value");
-    }
-
-    public static Optional<String> getAnnotationValueText(@NotNull PsiModifierListOwner target, @NotNull Annotation annotation) {
-        Optional<PsiAnnotationMemberValue> annotationValue = getAnnotationValue(target, annotation);
-        return annotationValue.isPresent() ? Optional.of(annotationValue.get().getText().replaceAll("\"", "")) : Optional.empty();
-    }
-
-    public static boolean isAnyAnnotationPresent(@NotNull PsiModifierListOwner target, @NotNull Set<Annotation> annotations) {
-        for (Annotation annotation : annotations) {
-            if (isAnnotationPresent(target, annotation)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean isAllParameterWithAnnotation(@NotNull PsiMethod method, @NotNull Annotation annotation) {
-        PsiParameter[] parameters = method.getParameterList().getParameters();
-        for (PsiParameter parameter : parameters) {
-            if (!isAnnotationPresent(parameter, annotation)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public static boolean hasImportClazz(@NotNull PsiJavaFile file, @NotNull String clazzName) {
