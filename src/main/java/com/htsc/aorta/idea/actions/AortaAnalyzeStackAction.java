@@ -1,17 +1,11 @@
 package com.htsc.aorta.idea.actions;
 
-import com.alibaba.fastjson2.JSON;
 import com.htsc.aorta.idea.general.AortaExtUtils;
 import com.htsc.aorta.idea.handler.MethodRecordHandler;
-import com.htsc.aorta.idea.handler.MethodRefResult;
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
+import com.htsc.aorta.idea.handler.MethodRef;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.ide.CopyPasteManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiCall;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.search.GlobalSearchScope;
@@ -21,7 +15,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.Query;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.datatransfer.StringSelection;
 import java.util.*;
 
 public class AortaAnalyzeStackAction extends AnAction {
@@ -30,13 +23,13 @@ public class AortaAnalyzeStackAction extends AnAction {
 
     private Set<PsiMethod> scannedMethods;
 
-    private Set<MethodRefResult> methodRefResults;
+    private Set<MethodRef> methodRefs;
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         methods2Scan = new LinkedList<>();
         scannedMethods = new HashSet<>();
-        methodRefResults = new HashSet<>();
+        methodRefs = new HashSet<>();
 
         Optional<PsiMethod> parentMethodOpt = AortaExtUtils.getParentPsiMethodSetByCaret(e);
         if (parentMethodOpt.isPresent()) {
@@ -44,13 +37,13 @@ public class AortaAnalyzeStackAction extends AnAction {
         }
 
         analyseMethod(e.getProject());
-        MethodRecordHandler.getInstance().finishHandler(e.getProject(), methodRefResults);
+        MethodRecordHandler.getInstance().finishHandler(e.getProject(), methodRefs);
     }
 
     private void markMethodsScanned(PsiMethod method) {
         if (Objects.nonNull(method)) {
             scannedMethods.add(method);
-            MethodRecordHandler.getInstance().recordMethod(method, methodRefResults);
+            MethodRecordHandler.getInstance().recordMethod(method, methodRefs);
         }
     }
 

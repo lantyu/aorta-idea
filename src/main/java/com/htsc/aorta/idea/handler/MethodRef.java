@@ -1,6 +1,6 @@
 package com.htsc.aorta.idea.handler;
 
-public class MethodRefResult {
+public class MethodRef {
 
     private String qualifiedMethodRef;
 
@@ -8,7 +8,7 @@ public class MethodRefResult {
 
     private String file;
 
-    public MethodRefResult(String qualifiedMethodRef, String classRefString, String file) {
+    public MethodRef(String qualifiedMethodRef, String classRefString, String file) {
         this.qualifiedMethodRef = qualifiedMethodRef;
         this.classRefString = classRefString;
         this.file = file;
