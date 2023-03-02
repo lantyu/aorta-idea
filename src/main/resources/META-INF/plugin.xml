@@ -22,8 +22,8 @@
     </extensions>
 
     <actions>
-        <action class="com.htsc.aorta.idea.actions.AortaAnalyzeStackAction" description="分析当前代码块引用"
-                text="分析当前代码块引用">
+        <action class="com.htsc.aorta.idea.actions.AortaAnalyzeStackAction" description="Aorta-分析当前代码块引用"
+                text="Aorta-分析当前代码块引用">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>
