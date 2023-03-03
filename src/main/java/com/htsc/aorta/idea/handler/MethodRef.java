@@ -8,6 +8,9 @@ public class MethodRef {
 
     private String file;
 
+    public MethodRef() {
+    }
+
     public MethodRef(String qualifiedMethodRef, String classRefString, String file) {
         this.qualifiedMethodRef = qualifiedMethodRef;
         this.classRefString = classRefString;

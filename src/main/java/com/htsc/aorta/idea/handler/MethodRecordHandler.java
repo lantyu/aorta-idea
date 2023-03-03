@@ -2,12 +2,14 @@ package com.htsc.aorta.idea.handler;
 
 import com.alibaba.fastjson2.JSON;
 import com.htsc.aorta.idea.config.AortaIdeaExtSettingHolder;
+import com.htsc.aorta.idea.general.PsiMethod2MethodRefTranslator;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
 import com.intellij.openapi.ide.CopyPasteManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiTarget;
 import org.apache.commons.collections.CollectionUtils;
 
 import java.awt.datatransfer.StringSelection;
@@ -41,9 +43,10 @@ public class MethodRecordHandler {
         System.out.println("scanning ====》" + JSON.toJSONString(methodRef));
     }
 
-    public void finishHandler(Project project, Set<MethodRef> methodRefs) {
+    public void finishHandler(Project project, Optional<PsiMethod> startMethod, Set<MethodRef> methodRefs) {
         Set<String> dubboServicesAll = AortaIdeaExtSettingHolder.getInstance(project).getDubboServices();
-        AnalyzeResult analyzeResult = new AnalyzeResult();
+        Optional<MethodRef> startMethodRefOpt = PsiMethod2MethodRefTranslator.getInstance().psiMethod2MethodRef(startMethod);
+        AnalyzeResult analyzeResult = new AnalyzeResult(startMethodRefOpt.orElse(null));
         analyzeResult.setMethodRefs(methodRefs);
         if (CollectionUtils.isNotEmpty(dubboServicesAll)) {
             analyzeResult.setDubboMethods(methodRefs.stream().filter(e -> dubboServicesAll.contains(Optional.ofNullable(e.getClassRefString()).orElse(""))).collect(Collectors.toSet()));

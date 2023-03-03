@@ -37,7 +37,7 @@ public class AortaAnalyzeStackAction extends AnAction {
         }
 
         analyseMethod(e.getProject());
-        MethodRecordHandler.getInstance().finishHandler(e.getProject(), methodRefs);
+        MethodRecordHandler.getInstance().finishHandler(e.getProject(),parentMethodOpt, methodRefs);
     }
 
     private void markMethodsScanned(PsiMethod method) {

@@ -35,7 +35,7 @@ public class AortaExtSettingConfigurationUI implements Configurable {
     public AortaExtSettingConfigurationUI(Project project) {
         this.component = new JPanel();
         this.component.setLayout(new BoxLayout(this.component, BoxLayout.Y_AXIS));
-        this.fileChooserBtn = new JButton("选择Dubbo Ref xml配置文件");
+        this.fileChooserBtn = new JButton("选择Dubbo provider Ref xml配置文件");
         this.dubboRefFiles = new JTextArea(15,50);
         this.dubboRefFiles.setLineWrap(true);
 

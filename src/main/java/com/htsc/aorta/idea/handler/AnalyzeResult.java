@@ -4,9 +4,23 @@ import java.util.Set;
 
 public class AnalyzeResult {
 
+    private MethodRef startMethod;
+
     private Set<MethodRef> methodRefs;
 
     private Set<MethodRef> dubboMethods;
+
+    public AnalyzeResult(MethodRef startMethod) {
+        this.startMethod = startMethod;
+    }
+
+    public MethodRef getStartMethod() {
+        return startMethod;
+    }
+
+    public void setStartMethod(MethodRef startMethod) {
+        this.startMethod = startMethod;
+    }
 
     public Set<MethodRef> getMethodRefs() {
         return methodRefs;

@@ -1,6 +1,6 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.lantyu.aortaidea</id>
+    <id>com.htsc.aorta.idea</id>
     <name>aorta-idea</name>
     <vendor>lizongxing</vendor>
 
@@ -16,14 +16,13 @@
                 nonDefaultProject="true"
                 instance="com.htsc.aorta.idea.config.AortaExtSettingConfigurationUI"
         />
-        <applicationService serviceImplementation="com.github.lantyu.aortaidea.services.MyApplicationService"/>
+<!--        <applicationService serviceImplementation="com.github.lantyu.aortaidea.services.MyApplicationService"/>-->
         <projectService serviceImplementation="com.htsc.aorta.idea.config.AortaIdeaExtSettingHolder"/>
 
     </extensions>
 
     <actions>
-        <action class="com.htsc.aorta.idea.actions.AortaAnalyzeStackAction" description="Aorta-分析当前代码块引用"
-                text="Aorta-分析当前代码块引用">
+        <action icon="AortaExtIcons.INNERICON" class="com.htsc.aorta.idea.actions.AortaAnalyzeStackAction" description="Aorta-分析当前代码块引用" text="Aorta-分析当前代码块引用" >
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>
